@@ -1,24 +1,42 @@
 package twitt;
 
-import java.io.InputStream;
-import java.io.Reader;
+import java.util.List;
 
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpResponse;
-import org.apache.http.StatusLine;
-import org.apache.http.client.HttpClient;
-import org.apache.http.client.methods.HttpGet;
+import javax.swing.JOptionPane;
+
+import twitter4j.Query;
+import twitter4j.QueryResult;
+import twitter4j.Status;
+import twitter4j.Twitter;
+import twitter4j.TwitterException;
+import twitter4j.TwitterFactory;
 
 public class TwittCalls {
-	
-	String url = "http://api.sr.se/api/v2/playlists/rightnow?channelid=2576&format=json";
-	
-	HttpClient httpclient = null;
-	HttpGet httpGet = null;
-	HttpResponse response = null;
-	StatusLine status = null;
-	HttpEntity entity = null;
-	InputStream data = null;
-	Reader reader = null;
+
+	public void makeTwittCall(String Query) throws TwitterException {
+        Twitter twitter = new TwitterFactory().getInstance();
+        try {
+            Query query = new Query(Query);
+            QueryResult result;
+            do {
+            	
+                result = twitter.search(query);
+                List<Status> tweets = result.getTweets();
+                for (Status tweet : tweets) {
+                    System.out.println("@" + tweet.getUser().getScreenName() + " - " + tweet.getText());
+                }
+            } while ((query = result.nextQuery()) != null);
+            System.exit(0);
+        } catch (TwitterException te) {
+            te.printStackTrace();
+            System.out.println("Failed to search tweets: " + te.getMessage());
+            System.exit(-1);
+}
+	}
+
+	public static void main(String[] args) throws TwitterException {
+		TwittCalls twc = new TwittCalls();
+		twc.makeTwittCall(JOptionPane.showInputDialog("TwitterSökning?"));
+	}
 
 }

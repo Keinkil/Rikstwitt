@@ -19,9 +19,9 @@ import riks.unirest.java.beans.Person;
 import riks.unirest.java.beans.Personlista;
 
 public class RiksCalls {
-	public static void main(String[] args) {
-		String url = "http://data.riksdagen.se/personlista/?iid=&fnamn=&enamn=&f_ar=&kn=&parti=&valkrets=&rdlstatus=&org=&utformat=json&termlista=";
+	private static Personlista personlista = null;
 
+	public static void makeCall() {
 		HttpClient httpclient = null;
 		HttpGet httpGet = null;
 		HttpResponse response = null;
@@ -33,7 +33,7 @@ public class RiksCalls {
 		Gson json = new Gson();
 
 		Envelope envelope = null;
-		Personlista personlista = null;
+		String url = "http://data.riksdagen.se/personlista/?iid=&fnamn=&enamn=&f_ar=&kn=&parti=&valkrets=&rdlstatus=&org=&utformat=json&termlista=";
 
 		try {
 			// Create the client that will call the API
@@ -57,9 +57,9 @@ public class RiksCalls {
 					// Print the info
 					printPersonlista(personlista);
 					System.out.println();
-					for(int i = 0; i < personlista.getPerson().length; i++) {
+					for (int i = 0; i < personlista.getPerson().length; i++) {
 						System.out.println("-------------------------------------------------------");
-					printPerson(personlista.getPerson()[i]);
+						printPerson(personlista.getPerson()[i]);
 					}
 				} catch (Exception e) {
 					// Something didn't go well. No calls for us.
@@ -87,5 +87,14 @@ public class RiksCalls {
 		System.out.println("Parti: " + person.getParti());
 		System.out.println("Status: " + person.getStatus());
 		System.out.println("Valkrets: " + person.getValkrets());
+	}
+
+	public static Person[] getPerson() {
+		makeCall();
+		return personlista.getPerson();
+	}
+
+	public static void main(String[] args) {
+		RiksCalls.makeCall();
 	}
 }
