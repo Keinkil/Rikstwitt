@@ -56,19 +56,19 @@ public class RiksCalls {
 
 					// Print the info
 					printPersonlista(personlista);
-					System.out.println();
-					for (int i = 0; i < personlista.getPerson().length; i++) {
-						System.out.println("-------------------------------------------------------");
-						printPerson(personlista.getPerson()[i]);
-					}
+//					System.out.println();
+//					for (int i = 0; i < personlista.getPerson().length; i++) {
+//						System.out.println("-------------------------------------------------------");
+//						printPerson(personlista.getPerson()[i]);
+//					}
 				} catch (Exception e) {
 					// Something didn't go well. No calls for us.
 					e.printStackTrace();
-					System.out.println("SR didn't respond in a good manner.");
+					System.out.println("Failed to execute proper request or bad answer");
 				}
 			} else {
 				// Something didn't go well. No calls for us.
-				System.out.println("SR didn't respond in a good manner.");
+				System.out.println("Failed to execute proper request or bad answer");
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

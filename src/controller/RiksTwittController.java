@@ -30,6 +30,8 @@ public class RiksTwittController {
 //		});
 		
 		get("/1", (req, res) -> {
+			res.type("application/json");
+			res.header("Access-Control-Allow-Origin", "*");
 			System.out.println(req.headers());
 			System.out.println("Request received");
 			Gson gson=new GsonBuilder().create();
@@ -38,11 +40,18 @@ public class RiksTwittController {
 				
 		});
 		
-		get("/", (req, res) -> {
+		get("/5", (req, res) -> {
 			System.out.println("Request received");
 			Gson gson=new GsonBuilder().create();
 		    String jsonArray=gson.toJson(RiksCalls.getPerson());
 			return RiksCalls.getPerson();
+				
+		});
+		
+		get("/", (req, res) -> {
+			res.header("Access-Control-Allow-Origin", "*");
+			System.out.println("hello");
+			return "hello";
 				
 		});
 	}
