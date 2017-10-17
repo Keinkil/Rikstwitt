@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<meta charset="UTF-8"> 
+<html>
+<head>
+
+</head>
+<body>
+<p id="demo"></p>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+var text = "";
+$(document).ready(function(){
+    $("button").click(function(){
+	$.ajax({
+    type: "GET",
+    url: "http://localhost:5000/1"
+}).done(function (res) {
+    console.log("yeah boi")
+	console.log(res);
+	for(i = 0; i < res.length; i++) {
+	text += res[i].tilltalsnamn +" "+res[i].efternamn +" är i riksdagen som " + res[i].status + "<br>";
+	}
+	document.getElementById("demo").innerHTML = text;
+}).fail(function (jqXHR, textStatus, errorThrown) {
+    alert("AJAX call failed: " + textStatus + ", " + errorThrown);
+});
+    });
+});
+
+</script>
+<button>Send an HTTP GET request to a page and get the result back</button>
+
+</body>
+</html>
