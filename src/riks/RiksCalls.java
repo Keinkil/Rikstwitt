@@ -21,7 +21,11 @@ import riks.unirest.java.beans.Personlista;
 public class RiksCalls {
 	private static Personlista personlista = null;
 
-	public static void makeCall() {
+	public static Person[] makeCall(String parti) {
+		String party = "";
+		if(parti != null) {
+			party = parti;
+		}
 		HttpClient httpclient = null;
 		HttpGet httpGet = null;
 		HttpResponse response = null;
@@ -33,7 +37,7 @@ public class RiksCalls {
 		Gson json = new Gson();
 
 		Envelope envelope = null;
-		String url = "http://data.riksdagen.se/personlista/?iid=&fnamn=&enamn=&f_ar=&kn=&parti=&valkrets=&rdlstatus=&org=&utformat=json&termlista=";
+		String url = "http://data.riksdagen.se/personlista/?iid=&fnamn=&enamn=&f_ar=&kn=&parti=" + party + "&valkrets=&rdlstatus=&org=&utformat=json&termlista=";
 
 		try {
 			// Create the client that will call the API
@@ -73,6 +77,7 @@ public class RiksCalls {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		return personlista.getPerson();
 	}
 
 	public static void printPersonlista(Personlista personlista) {
@@ -90,11 +95,11 @@ public class RiksCalls {
 	}
 
 	public static Person[] getPerson() {
-		makeCall();
+		makeCall("");
 		return personlista.getPerson();
 	}
 
 	public static void main(String[] args) {
-		RiksCalls.makeCall();
+		RiksCalls.makeCall("");
 	}
 }

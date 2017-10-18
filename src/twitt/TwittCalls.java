@@ -13,25 +13,39 @@ import twitter4j.TwitterFactory;
 
 public class TwittCalls {
 
-	public void makeTwittCall(String Query) throws TwitterException {
+	public static List<Status> makeTwittCall(String Query) throws TwitterException {
         Twitter twitter = new TwitterFactory().getInstance();
+        List<Status> tweets = null;
+        Query query = new Query(Query);
         try {
-            Query query = new Query(Query);
-            QueryResult result;
-            do {
-            	
-                result = twitter.search(query);
-                List<Status> tweets = result.getTweets();
-                for (Status tweet : tweets) {
-                    System.out.println("@" + tweet.getUser().getScreenName() + " - " + tweet.getText());
-                }
-            } while ((query = result.nextQuery()) != null);
-            System.exit(0);
-        } catch (TwitterException te) {
-            te.printStackTrace();
-            System.out.println("Failed to search tweets: " + te.getMessage());
-            System.exit(-1);
-}
+        QueryResult result = twitter.search(query);
+        tweets = result.getTweets();
+        } catch(TwitterException te) {
+        	te.printStackTrace();
+        	System.out.println("Failed to search tweets: " + te.getMessage());
+        	System.exit(-1);
+        }
+        
+//        try {
+//            Query query = new Query(Query);
+//            QueryResult result;
+//            do {
+//            	
+//                result = twitter.search(query);
+//                List<Status> tweets = result.getTweets();
+//                for (Status tweet : tweets) {
+//                    System.out.println("@" + tweet.getUser().getScreenName() + " - " + tweet.getText());
+//                }
+//            } while ((query = result.nextQuery()) != null);
+//            System.exit(0);
+//        } catch (TwitterException te) {
+//            te.printStackTrace();
+//            System.out.println("Failed to search tweets: " + te.getMessage());
+//            System.exit(-1);
+//}
+//        return tweets;
+//	}
+        return tweets;
 	}
 
 	public static void main(String[] args) throws TwitterException {

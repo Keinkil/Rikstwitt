@@ -9,16 +9,17 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
 <script>
 var text = "";
+
 $(document).ready(function(){
     $("button").click(function(){
 	$.ajax({
     type: "GET",
-    url: "http://localhost:5000/1"
+    url: "http://localhost:5000/"
 }).done(function (res) {
     console.log("yeah boi")
 	console.log(res);
-	for(i = 0; i < res.length; i++) {
-	text += res[i].tilltalsnamn +" "+res[i].efternamn +" är i riksdagen som " + res[i].status + "<br>";
+	for(i = 0; i < 1; i++) {
+	text += res + status + "<br>";
 	}
 	document.getElementById("demo").innerHTML = text;
 }).fail(function (jqXHR, textStatus, errorThrown) {
@@ -26,9 +27,11 @@ $(document).ready(function(){
 });
     });
 });
-
 </script>
 <button>Send an HTTP GET request to a page and get the result back</button>
 
 </body>
 </html>
+
+
+
