@@ -73,10 +73,11 @@ function fetchAndUpdateInfo(details) {
 
 function fetchTweets(details) {
 
-  var html = "";
+  
    return function() {
+   
     $.ajax({
-
+	var html = "";
        type: "GET",
       url: "http://localhost:5000/" + details + "/tweets",
       headers: {"Accept": "application/json"}
