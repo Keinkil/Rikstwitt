@@ -23,7 +23,7 @@ public class RiksCalls {
 
 	public static Person[] makeCall(String parti) {
 		String party = "";
-		if(parti != null) {
+		if (parti != null) {
 			party = parti;
 		}
 		HttpClient httpclient = null;
@@ -37,7 +37,8 @@ public class RiksCalls {
 		Gson json = new Gson();
 
 		Envelope envelope = null;
-		String url = "http://data.riksdagen.se/personlista/?iid=&fnamn=&enamn=&f_ar=&kn=&parti=" + party + "&valkrets=&rdlstatus=&org=&utformat=json&termlista=";
+		String url = "http://data.riksdagen.se/personlista/?iid=&fnamn=&enamn=&f_ar=&kn=&parti=" + party
+				+ "&valkrets=&rdlstatus=&org=&utformat=json&termlista=";
 
 		try {
 			// Create the client that will call the API
@@ -60,11 +61,18 @@ public class RiksCalls {
 
 					// Print the info
 					printPersonlista(personlista);
-//					System.out.println();
-//					for (int i = 0; i < personlista.getPerson().length; i++) {
-//						System.out.println("-------------------------------------------------------");
-//						printPerson(personlista.getPerson()[i]);
-//					}
+
+					
+					/**
+					 * Testcode
+					 */
+					// System.out.println();
+					// for (int i = 0; i < personlista.getPerson().length; i++) {
+					// System.out.println("-------------------------------------------------------");
+					// printPerson(personlista.getPerson()[i]);
+					// }
+					
+					
 				} catch (Exception e) {
 					// Something didn't go well. No calls for us.
 					e.printStackTrace();
