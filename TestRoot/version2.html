@@ -75,9 +75,9 @@ function fetchTweets(details) {
 
   
    return function() {
-   
+   var html = "";
     $.ajax({
-	var html = "";
+	
        type: "GET",
       url: "http://localhost:5000/" + details + "/tweets",
       headers: {"Accept": "application/json"}
