@@ -19,7 +19,7 @@ table {
   width: 1200px;
 }
 td {
-  border: 1px #172838;
+  
   padding: 10px;
 }
 
@@ -34,6 +34,7 @@ li {
 
 #test {
   width: 300px;
+
 }
 
 </style>
@@ -73,11 +74,10 @@ function fetchAndUpdateInfo(details) {
 
 function fetchTweets(details) {
 
-  
+  var html = "";
    return function() {
-   var html = "";
     $.ajax({
-	
+
        type: "GET",
       url: "http://localhost:5000/" + details + "/tweets",
       headers: {"Accept": "application/json"}
@@ -234,6 +234,25 @@ $(document).ready(function(){
 });  
 });
 
+$(document).ready(function(){
+  $.ajax({
+    type: "GET",
+    url: "http://localhost:5000/parti/statsministern"
+}).done(function (res) {
+  list = $('#Statsministern');
+  for(i = 0; i <  res.length; i++) {
+    html = "";
+    html = '<li id="Statsministern' + i + '">' + res[i].tilltalsnamn + " " + res[i].efternamn + '</li>';  
+    list.append(html);
+    $('#Statsministern' + i).click(fetchAndUpdateInfo("Statsministern " +i));
+     $('#Statsministern' + i).click(fetchTweets(res[i].tilltalsnamn + " " + res[i].efternamn));
+  }
+
+      
+}).fail(function (jqXHR, textStatus, errorThrown) {
+    alert("AJAX call failed: " + textStatus + ", " + errorThrown);
+});  
+});
 
 
 $(document).ready(function(){
@@ -278,7 +297,6 @@ $(document).ready(function(){
 </head>
  
 <body>
-
        <!--change to head? -->
 <section id="Start Image">
    <th><a href="version2.html"><img src = "Header.png" alt="test pic " width="1520"></a></th>
@@ -307,8 +325,10 @@ $(document).ready(function(){
     <td id="Tweets"> Latest Tweets about person
       <div style="height:550px;width:820px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
          <ul id="TweetsWithName">
+
        </ul>
       </div>
+       <br><i> Note: Personens tweet som visa eventuellt inte är om rätt person, Endast partiledare är 100% korrekta</i>
     
 </td>
 </tr>
@@ -411,11 +431,17 @@ $(document).ready(function(){
        <td id="">  Vildar
                               <div style="height:250px;width:220px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
                <ul id="Vildar_list">
-       </div>
-    
+       </div>    
   <!--for-loop on all games. -->
       </ul>
+    </td>
 
+           <td id="">  Statsministern
+                              <div style="height:150px;width:220px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
+               <ul id="Statsministern">
+       </div>    
+  <!--for-loop on all games. -->
+      </ul>
     </td>
 </table>
 </section>
