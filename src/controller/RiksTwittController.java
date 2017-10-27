@@ -8,6 +8,7 @@ import com.google.gson.GsonBuilder;
 
 import riks.RiksCalls;
 import twitt.TwittCalls;
+import twitt.TwittMap;
 
 
 public class RiksTwittController {
@@ -22,10 +23,16 @@ public class RiksTwittController {
 			res.header("Access-Control-Allow-Origin", "*");
 			String id = req.params(":id");
 			//System.out.println(req.headers());
-			System.out.println("Request received");
+			//System.out.println("Request received");
 			Gson gson=new GsonBuilder().create();
-		    String jsonArray=gson.toJson(RiksCalls.makeCall(id));
-			return jsonArray;		
+			if(id.contains("statsministern")) {
+				String jsonArray=gson.toJson(RiksCalls.makeCallS(id));
+				return jsonArray;	
+			}else {
+				String jsonArray=gson.toJson(RiksCalls.makeCall(id));
+				return jsonArray;	
+			}
+				
 				
 		});
 		
@@ -43,12 +50,11 @@ public class RiksTwittController {
 			res.header("Access-Control-Allow-Origin", "*");
 			System.out.println("Request received");
 			Gson gson = new GsonBuilder().create();
+			id = TwittMap.check(id);
 			String jsonArray = gson.toJson(TwittCalls.makeTwittCall(id));
 			return jsonArray;
 
 		});
-		
-		// 	SearchUsers.SearchUser("Jan Björklund");
 	}
 
 }

@@ -12,18 +12,19 @@ import twitter4j.TwitterFactory;
 public class TwittCalls {
 
 	public static List<Status> makeTwittCall(String Query) throws TwitterException {
-        Twitter twitter = new TwitterFactory().getInstance();
-        List<Status> tweets = null;
-        Query query = new Query(Query);
-        try {
-        QueryResult result = twitter.search(query);
-        tweets = result.getTweets();
-        } catch(TwitterException te) {
-        	te.printStackTrace();
-        	System.out.println("Failed to search tweets: " + te.getMessage());
-        	System.exit(-1);
-        }
-        return tweets;
+		Twitter twitter = new TwitterFactory().getInstance();
+		List<Status> tweets = null;
+		Query query = new Query(Query);
+		query.setResultType(twitter4j.Query.RECENT);
+		try {
+			QueryResult result = twitter.search(query);
+			tweets = result.getTweets();
+		} catch (TwitterException te) {
+			te.printStackTrace();
+			System.out.println("Failed to search tweets: " + te.getMessage());
+			System.exit(-1);
+		}
+		return tweets;
 	}
 
 }
