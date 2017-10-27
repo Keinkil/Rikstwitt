@@ -72,6 +72,31 @@ function fetchAndUpdateInfo(details) {
   }
 }
 
+function fetchAndUpdateInfo2(details) {
+      var str = details;
+      var details = "";
+  return function() {
+    $.ajax({
+
+       type: "GET",
+      url: "http://localhost:5000/parti/" + "statsministern",
+      headers: {"Accept": "application/json"}
+    })
+    //  "<img src = "+ res[details].bild_url_192 +"  alt= no image>" '<img src="'+ res[details].bild_url_192 +'">'
+    .done(function (res) {
+       $('#unicornImage').html( '<img src="'+ res.bild_url_192 +'">');
+       $('#NamnEfternamn').text(res.tilltalsnamn +  " " + res.efternamn);
+       $('#Född').text("Född: " +res.fodd_ar);
+       $('#Parti').text("Parti: " +res.parti);
+       $('#Roll').text("Roll: " + res.status);
+       $('#Län').text("Län: "+ res.valkrets);
+    //    $('#TweetsAbout').text("Län: "+ res[details[1]].valkrets);
+
+      console.log(res);
+    });
+  }
+}
+
 function fetchTweets(details) {
 
   var html = "";
@@ -83,13 +108,14 @@ function fetchTweets(details) {
       headers: {"Accept": "application/json"}
     })
     .done(function (res) {
+		html = "";
        $('#TweetsWithName').empty();
         list = $('#TweetsWithName ');
       for(i = 0; i < res.length; i++) {
     
     html += '<li>' + "@" + res[i].user.screenName + " - " + res[i].text + '</li> <br>';  
-    list.append(html);  
     }
+	list.append(html); 
     //$('#TweetsWithName').text(html);
   });
 
@@ -240,13 +266,12 @@ $(document).ready(function(){
     url: "http://localhost:5000/parti/statsministern"
 }).done(function (res) {
   list = $('#Statsministern');
-  for(i = 0; i <  res.length; i++) {
     html = "";
-    html = '<li id="Statsministern' + i + '">' + res[i].tilltalsnamn + " " + res[i].efternamn + '</li>';  
+    html = '<li id="Statsministern' + i + '">' + res.tilltalsnamn + " " + res.efternamn + '</li>';  
     list.append(html);
-    $('#Statsministern' + i).click(fetchAndUpdateInfo("Statsministern " +i));
-     $('#Statsministern' + i).click(fetchTweets(res[i].tilltalsnamn + " " + res[i].efternamn));
-  }
+    $('#Statsministern' + i).click(fetchAndUpdateInfo2("Statsministern"));
+     $('#Statsministern' + i).click(fetchTweets(res.tilltalsnamn + " " + res.efternamn));
+
 
       
 }).fail(function (jqXHR, textStatus, errorThrown) {
