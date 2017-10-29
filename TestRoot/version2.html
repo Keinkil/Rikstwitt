@@ -28,7 +28,7 @@ li {
 }
 
 
-#unicornImage img {
+#Profilimage img {
   max-width: 220;
 }
 
@@ -46,6 +46,8 @@ li {
 <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.11.4/jquery-ui.min.js"></script>
 <script type="text/javascript">
 
+
+
 function fetchAndUpdateInfo(details) {
       var str = details;
       var details = "";
@@ -57,21 +59,21 @@ function fetchAndUpdateInfo(details) {
       url: "http://localhost:5000/parti/" + details[0],
       headers: {"Accept": "application/json"}
     })
-    //  "<img src = "+ res[details].bild_url_192 +"  alt= no image>" '<img src="'+ res[details].bild_url_192 +'">'
+    //  Skriver ut information om ledarmöten på rätt ställen.
     .done(function (res) {
-       $('#unicornImage').html( '<img src="'+ res[details[1]].bild_url_192 +'">');
+       $('#Profilimage').html( '<img src="'+ res[details[1]].bild_url_192 +'">');
        $('#NamnEfternamn').text(res[details[1]].tilltalsnamn +  " " + res[details[1]].efternamn);
        $('#Född').text("Född: " +res[details[1]].fodd_ar);
        $('#Parti').text("Parti: " +res[details[1]].parti);
        $('#Roll').text("Roll: " + res[details[1]].status);
        $('#Län').text("Län: "+ res[details[1]].valkrets);
-    //    $('#TweetsAbout').text("Län: "+ res[details[1]].valkrets);
-
       console.log(res);
     });
   }
 }
 
+
+//function som endast skriver ut statsministerns info
 function fetchAndUpdateInfo2(details) {
       var str = details;
       var details = "";
@@ -97,6 +99,8 @@ function fetchAndUpdateInfo2(details) {
   }
 }
 
+
+//hämtar alla tweets som vald person och skriver ut det.
 function fetchTweets(details) {
 
   var html = "";
@@ -122,11 +126,11 @@ function fetchTweets(details) {
   }}
 
 
-
+// hämtar lista på personer i liberalerna, alla partier gar en liknande
 $(document).ready(function(){
   $.ajax({
     type: "GET",
-    url: "http://localhost:5000/parti/l"
+    url: "http://localhost:5000/parti/l"  //Här står "parti/l" varje parti har parti/XX där XX blir förkortningen på deras parti.  
 }).done(function (res) {
   list = $('#liberalerna_list');
   for(i = 0; i < res.length; i++) {
@@ -279,7 +283,7 @@ $(document).ready(function(){
 });  
 });
 
-
+//inget parti, dvs alla vildar i riksdagen
 $(document).ready(function(){
   $.ajax({
     type: "GET",
@@ -333,11 +337,12 @@ $(document).ready(function(){
 <section id="About"> 
 <table> 
   <tr>
+
      <br><br>
      <td id="INFO"> Om personen
              <div style="height:550px;width:420px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
        <ul id="InfoAndImage">
-        <span id="unicornImage"></span>
+        <span id="Profilimage"></span>
        <p id="NamnEfternamn"></p>
        <p id="Född"></p>
       <p id="Parti"></p>
@@ -353,7 +358,7 @@ $(document).ready(function(){
 
        </ul>
       </div>
-       <br><i> Note: Personens tweet som visa eventuellt inte är om rätt person, Endast partiledare är 100% korrekta</i>
+       <br><i> Note: Tweets om personen är eventuellt om en annan med samma namn. Endast partiledare är 100% korrekta</i>
     
 </td>
 </tr>
@@ -362,6 +367,8 @@ $(document).ready(function(){
 </div>
 <center>
 
+
+<!-- tables med alla partiernas representater som är uppdelade och som sammlas i snygga scrollbara listor.--> 
 <section id="Alliansen "> 
 <table> 
 
@@ -371,7 +378,7 @@ $(document).ready(function(){
        <div style="height:250px;width:220px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
         <ul id="liberalerna_list">
        </div>
-    <!--for-loop on all games. -->
+    <!--for-loop on all members. -->
       </ul>
 </td>
     <td id="M">   Moderaterna
@@ -379,7 +386,7 @@ $(document).ready(function(){
             <ul id="M_list">
        </div>
 
-  <!--for-loop on all games. -->
+  <!--for-loop on all members. -->
       </ul>
 
     </td>
@@ -388,7 +395,7 @@ $(document).ready(function(){
           <ul id="KD_list">
        </div>
     
-  <!--for-loop on all games. -->
+  <!--for-loop on all members. -->
       </ul>
 
     </td>
@@ -397,7 +404,7 @@ $(document).ready(function(){
              <ul id="C_list">
        </div>
 
-  <!--for-loop on all games. -->
+  <!--for-loop on all members. -->
       </ul>
 
     </td>
@@ -415,7 +422,7 @@ $(document).ready(function(){
              <ul id="V_list">
        </div>
 
-    <!--for-loop on all games. -->
+    <!--for-loop on all members. -->
       </ul>
 </td>
     <td id="Miljöpartiet">   Miljöpartiet
@@ -423,7 +430,7 @@ $(document).ready(function(){
              <ul id="Mp_list">
        </div>
    
-  <!--for-loop on all games. -->
+  <!--for-loop on all members. -->
       </ul>
 
     </td>
@@ -432,7 +439,7 @@ $(document).ready(function(){
               <ul id="S_list">
        </div>
   
-  <!--for-loop on all games. -->
+  <!--for-loop on all members. -->
       </ul>
 
     </td>
@@ -449,7 +456,7 @@ $(document).ready(function(){
                <ul id="SD_list">
        </div>
    
-    <!--for-loop on all games. -->
+    <!--for-loop on all members. -->
       </ul>
  </td>
 
@@ -457,7 +464,7 @@ $(document).ready(function(){
                               <div style="height:250px;width:220px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
                <ul id="Vildar_list">
        </div>    
-  <!--for-loop on all games. -->
+  <!--for-loop on all members. -->
       </ul>
     </td>
 
@@ -465,7 +472,7 @@ $(document).ready(function(){
                               <div style="height:150px;width:220px;border:1px solid #ccc;font:16px/26px Georgia, Garamond, Serif;overflow:auto;">
                <ul id="Statsministern">
        </div>    
-  <!--for-loop on all games. -->
+  <!--for-loop on all members. -->
       </ul>
     </td>
 </table>
