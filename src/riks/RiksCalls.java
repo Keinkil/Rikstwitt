@@ -13,6 +13,7 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.HttpClients;
 
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import riks.unirest.java.beans.Envelope;
 import riks.unirest.java.beans.Envelope2;
@@ -20,15 +21,32 @@ import riks.unirest.java.beans.Person;
 import riks.unirest.java.beans.Personlista;
 import riks.unirest.java.beans.Personlista2;
 
+/**
+ * A class that handles and makes requests to Riksdagens API
+ * 
+ * @author Rikard Almgren
+ * @version 1.0
+ */
 public class RiksCalls {
 	private static Personlista personlista = null;
 	private static Personlista2 personlista2 = null;
 
+	/**
+	 * A method that makes a call to Riksdagens API to retrieve information about
+	 * people in a specific political party (or all parties if in-parameter is null
+	 * or blank).
+	 * 
+	 * @param parti
+	 *            political party
+	 * @return an array of Person objects
+	 */
 	public static Person[] makeCall(String parti) {
 		String party = "";
+		// check if null
 		if (parti != null) {
 			party = parti;
 		}
+		// create necessary objects to handle and make request
 		HttpClient httpclient = null;
 		HttpGet httpGet = null;
 		HttpResponse response = null;
@@ -40,9 +58,15 @@ public class RiksCalls {
 		Gson json = new Gson();
 
 		Envelope envelope = null;
+		/*
+		 * The basic request URL from Riksdagens API. We currently only ever request
+		 * lists of political parties but the same URL can be modified to make more
+		 * requests
+		 */
 		String url = "http://data.riksdagen.se/personlista/?iid=&fnamn=&enamn=&f_ar=&kn=&parti=" + party
 				+ "&valkrets=&rdlstatus=tjanst&org=&utformat=json&termlista=";
 
+		// Attempt to connect to the API and retrieve the information
 		try {
 			// Create the client that will call the API
 			httpclient = HttpClients.createDefault();
@@ -58,24 +82,14 @@ public class RiksCalls {
 
 				try {
 					// Attempt to parse the data as JSON
-					reader = new InputStreamReader(data);
+					reader = new InputStreamReader(data, "UTF-8");
 					envelope = json.fromJson(reader, Envelope.class);
 					personlista = envelope.getPersonlista();
 
-					// Print the info
+					// Print the info to console to check request ( Not necessary, but can be used
+					// to check response while testing
 					printPersonlista(personlista);
 
-					
-					/**
-					 * Testcode
-					 */
-					// System.out.println();
-					// for (int i = 0; i < personlista.getPerson().length; i++) {
-					// System.out.println("-------------------------------------------------------");
-					// printPerson(personlista.getPerson()[i]);
-					// }
-					
-					
 				} catch (Exception e) {
 					// Something didn't go well. No calls for us.
 					e.printStackTrace();
@@ -88,9 +102,12 @@ public class RiksCalls {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		// return the array
 		return personlista.getPerson();
 	}
-	
+
+	// This does exactly the same thing as the above method except it (optimally)
+	// only retrieves a single person object. That of the Prime Minister.
 	public static Person makeCallS(String parti) {
 		String party = "";
 		if (parti != null) {
@@ -109,7 +126,9 @@ public class RiksCalls {
 		Envelope2 envelope = null;
 		String url = "http://data.riksdagen.se/personlista/?iid=&fnamn=&enamn=&f_ar=&kn=&parti=" + party
 				+ "&valkrets=&rdlstatus=&org=&utformat=json&termlista=";
-		if(parti.contains("statsministern")) {
+
+		// Hijack the URl and change it to ask specifically for the prime minister.
+		if (parti.contains("statsministern")) {
 			url = "http://data.riksdagen.se/personlista/?iid=0218878014918&utformat=json";
 		}
 
@@ -135,17 +154,6 @@ public class RiksCalls {
 					// Print the info
 					printPersonlista(personlista2);
 
-					
-					/**
-					 * Testcode
-					 */
-					// System.out.println();
-					// for (int i = 0; i < personlista.getPerson().length; i++) {
-					// System.out.println("-------------------------------------------------------");
-					// printPerson(personlista.getPerson()[i]);
-					// }
-					
-					
 				} catch (Exception e) {
 					// Something didn't go well. No calls for us.
 					e.printStackTrace();
@@ -155,18 +163,21 @@ public class RiksCalls {
 				// Something didn't go well. No calls for us.
 				System.out.println("Failed to execute proper request or bad answer");
 			}
+			// uh oh, something else went wrong. Check the trace to find out
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+
 		return personlista2.getPerson();
 	}
 
+	// Test/Confirmation methods
 	public static void printPersonlista(Personlista personlista) {
 
 		System.out.println("Datum: " + personlista.getSystemdatum());
 		System.out.println("Antal Ledamöter: " + personlista.getHits());
 	}
-	
+
 	public static void printPersonlista(Personlista2 personlista) {
 
 		System.out.println("Datum: " + personlista.getSystemdatum());
@@ -187,6 +198,8 @@ public class RiksCalls {
 	}
 
 	public static void main(String[] args) {
-		RiksCalls.makeCall("");
+		Gson gson = new GsonBuilder().create();
+		String jsonArray = gson.toJson(RiksCalls.makeCallS("statsministern"));
+		System.out.println(jsonArray);
 	}
 }

@@ -1,8 +1,21 @@
 package twitt;
-
+/**
+ * A simple class to hold and return manual twitter handle mappings due to limitations of the initial plan
+ * 
+ * @author Rikard Almgren
+ * @version 1.0
+ */
 public class TwittMap {
-
+	
+	
+	/**
+	 * A method to return a twitter handle if the parameter matches a manual mapping.
+	 * 
+	 * @param id String to check
+	 * @return Return either original id if matching failed, or if matching succeeded, return the matched handle. 
+	 */
 	public static String check(String id) {
+		
 		if (id.contains("Jonas%20Sj%C3%B6stedt")) {
 			id = "@jsjostedt";
 			System.out.println("ID intercepted and set to @jsjostedt");
@@ -28,6 +41,7 @@ public class TwittMap {
 			id = "@annieloof";
 			System.out.println("ID intercepted and set to @annieloof");
 		}
+		//if it is, return the id. If it matched none of the above, keep the id that came in.
 		return id;
 	}
 
