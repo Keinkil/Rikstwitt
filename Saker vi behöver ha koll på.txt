@@ -1,4 +1,0 @@
-Twitter4j
-Apache HTTPClient
-Spark
-TwitterOAUTH
